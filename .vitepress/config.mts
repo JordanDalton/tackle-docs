@@ -6,7 +6,11 @@ export default defineConfig({
     'An AI agent harness for Laravel — coding agents, code review, dependency upgrades, and self-healing, with safety boundaries enforced at the framework level.',
   lang: 'en-US',
   lastUpdated: true,
-  cleanUrls: true,
+  // cleanUrls is off: the site is served as static files by nginx (Forge)
+  // with no extensionless-path rewrite, so links carry the real .html the
+  // server can find. Flip to true only alongside an nginx
+  // `try_files $uri $uri.html $uri/ =404;` rule.
+  cleanUrls: false,
   srcExclude: ['README.md'],
   sitemap: {
     hostname: 'https://tackle.jordandalton.com',
@@ -24,9 +28,14 @@ export default defineConfig({
   ],
   transformPageData(pageData, { siteConfig }) {
     const site = siteConfig.site
-    const path = pageData.relativePath
-      .replace(/index\.md$/, '')
-      .replace(/\.md$/, '')
+    // Match the non-clean URLs the pages are actually served at: the root
+    // and directory indexes stay extensionless, every other page ends .html.
+    const raw = pageData.relativePath
+    const path = raw === 'index.md'
+      ? ''
+      : raw.endsWith('/index.md')
+        ? raw.replace(/index\.md$/, '')
+        : raw.replace(/\.md$/, '.html')
     const url = `https://tackle.jordandalton.com/${path}`
     const title = pageData.title ? `${pageData.title} | ${site.title}` : site.title
     const description = pageData.description || site.description
