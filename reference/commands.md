@@ -43,6 +43,7 @@ One-command installers for the optional pieces:
 php artisan tackle:install remote   # composer-require Tackle Remote (--no-dev to add to require)
 php artisan tackle:install review   # scaffold .github/workflows/tackle-review.yml
 php artisan tackle:install codex    # composer-require Tackle Codex (--no-dev to add to require)
+php artisan tackle:install grok     # composer-require Tackle Grok (--no-dev to add to require)
 php artisan tackle:install guard    # print the guard-pack hook entries to add to config
 ```
 

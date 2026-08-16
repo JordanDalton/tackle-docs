@@ -61,6 +61,8 @@ The core package is the harness. Around it:
 - **[Tackle Codex](/integrations/codex)** — an OpenAI Codex provider: run the
   agents on your ChatGPT subscription (usage records as $0) or an OpenAI API
   key.
+- **[Tackle Grok](/integrations/grok)** — an xAI Grok provider: run the agents
+  on an xAI API key or your grok.com plan.
 - **[MCP server](/integrations/mcp)** — `tackle:mcp` serves Tackle's
   Laravel-aware tools to any MCP client (Claude Code, Cursor, Zed), with the
   same safety layer enforced.

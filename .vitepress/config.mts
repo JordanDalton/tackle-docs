@@ -56,6 +56,7 @@ export default defineConfig({
           { text: 'Tackle Remote', link: '/integrations/remote' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
+          { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
           { text: 'MCP Server', link: '/integrations/mcp' },
         ],
       },
@@ -99,6 +100,7 @@ export default defineConfig({
           { text: 'Tackle Remote', link: '/integrations/remote' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
+          { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
         ],
       },
       {

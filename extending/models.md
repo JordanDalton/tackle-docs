@@ -34,8 +34,10 @@ AI_CODE_PRICE_OUTPUT=0
 Providers don't have to be API-key services: the
 [Tackle Codex](/integrations/codex) add-on registers a `codex` driver that
 runs the agents on OpenAI's Codex models via your ChatGPT subscription, with
-usage recorded as $0 against the session budget. It's also a working example
-of packaging a custom `laravel/ai` driver for Tackle.
+usage recorded as $0 against the session budget, and
+[Tackle Grok](/integrations/grok) adds a `grok` driver for xAI's Grok models.
+Both are working examples of packaging a custom `laravel/ai` driver for
+Tackle.
 
 ## The model catalog
 
