@@ -1,0 +1,111 @@
+# Configuration
+
+After publishing the config, edit `config/tackle.php`. All values can be set
+via environment variables — see the
+[Environment variables](/reference/environment) reference.
+
+```php
+return [
+    // laravel/ai provider name — must match a key in config/ai.php
+    'provider' => env('AI_CODE_PROVIDER', 'anthropic'),
+
+    // Model to use
+    'model' => env('AI_CODE_MODEL', 'claude-sonnet-4-6'),
+
+    // Tool-call ceiling for ai:run — a cap, not a grant; it cannot raise
+    // the agent's own #[MaxSteps] attribute
+    'max_steps' => env('AI_CODE_MAX_STEPS', 40),
+
+    // Hard spend limit for the session in USD — aborts when exceeded
+    'budget_usd' => env('AI_CODE_BUDGET', 1.00),
+
+    // Shell execution policy — string or per-environment array.
+    // String form (backward-compatible): applies to all environments.
+    // Array form: keyed by environment name; production defaults to 'off'.
+    'shell' => [
+        'local'      => env('AI_CODE_SHELL', 'approve'),
+        'staging'    => env('AI_CODE_SHELL', 'approve'),
+        'production' => env('AI_CODE_SHELL', 'off'),
+    ],
+
+    'shell_allowlist' => ['composer', 'npm', 'php artisan'],
+
+    // Artisan commands the agent may run without confirmation — per environment.
+    // Flat array form is still accepted for backward compatibility.
+    'artisan_allowlist' => [
+        'local'      => ['make:*', 'migrate:*', 'db:seed', 'route:list', 'test'],
+        'staging'    => ['migrate', 'route:list'],
+        'production' => ['route:list'],
+    ],
+
+    // Artisan commands that require an interactive confirmation before running.
+    'artisan_destructive' => [
+        'local'      => ['migrate:fresh', 'migrate:reset', 'migrate:refresh', 'db:wipe'],
+        'staging'    => [],
+        'production' => [],
+    ],
+
+    // Worktree isolation — edits go to a temp worktree instead of live files.
+    // Production defaults to true; other environments default to false.
+    'worktree' => [
+        'local'      => env('AI_CODE_WORKTREE', false),
+        'staging'    => env('AI_CODE_WORKTREE', false),
+        'production' => env('AI_CODE_WORKTREE', true),
+    ],
+
+    // Glob patterns (relative to workspace) the agent can never read or write
+    'protected_paths' => ['.env', '.env.*', 'storage/*', 'vendor/*', '.git/*'],
+
+    // Root directory for the agent — null defaults to base_path()
+    'workspace' => null,
+
+    // Session memory: file (default, resumes across runs) | none
+    'memory' => env('AI_CODE_MEMORY', 'file'),
+];
+```
+
+## Shell modes
+
+| Mode | Behaviour |
+|---|---|
+| `off` | `RunShell` refuses everything. Use `RunArtisan` / `RunTests` instead. |
+| `allowlist` | Only commands whose first token matches `shell_allowlist` run unattended. |
+| `approve` | **Default.** Every command shows a confirmation prompt before running. Choosing **"always allow this exact command"** saves it to `.tackle/permissions.json`, and it runs without asking from then on. |
+| `yolo` | Runs anything, no prompt. **Dangerous — CI or fully-trusted environments only.** |
+
+Shell mode can be set as a plain string (applies to all environments) or as a
+per-environment array (shown above). The `production` key defaults to `off`.
+
+You can override the mode for a single session with `--shell` — see
+[Interactive Coding](/agents/interactive#shell-mode-flag).
+
+## Artisan allowlist and destructive list
+
+`artisan_allowlist` controls which commands the agent may run freely.
+`artisan_destructive` lists commands that require an interactive terminal
+confirmation before running. Commands in neither list are refused outright.
+Both support glob patterns (`make:*` covers `make:model`, `make:controller`,
+etc.) and can be a flat array (all environments) or a per-environment keyed
+array.
+
+`RunTests` also respects the allowlist — if `test` is not in the allowlist for
+the current environment, the tool is refused.
+
+## Protected paths
+
+The `protected_paths` globs prevent the agent from reading or writing sensitive
+files regardless of what it is asked to do. This is enforced in PHP, not via
+prompting. Add your own patterns here if your project has additional secrets.
+
+For an honest account of what path protection does and doesn't guarantee, read
+[What the guards do and don't stop](/guide/safety#what-the-guards-do-and-don-t-stop).
+
+## Worktree isolation
+
+Worktree mode runs the agent against an isolated git worktree rather than your
+live files. All edits land in a temp directory; nothing touches your working
+tree until you open a PR. Production environments default to `worktree: on`.
+
+See [Worktree mode](/agents/interactive#worktree-mode) for session flags and
+behaviour, and [`tackle:prune`](/reference/commands#tackle-prune) for cleaning
+up worktrees left behind by interrupted sessions.
