@@ -4,7 +4,10 @@ layout: home
 hero:
   name: Laravel Tackle
   text: An AI agent harness for Laravel
-  tagline: Coding agents that read your codebase, run your tests, review your PRs, upgrade your dependencies, and heal your failed jobs — installed via Composer, with safety boundaries enforced at the framework level.
+  tagline: Coding agents that read your codebase, run your tests, review your PRs, upgrade your dependencies, and heal your failed jobs — installed via Composer, with safety boundaries enforced at the framework level. Get it done.
+  image:
+    src: /mascot.png
+    alt: The Tackle mascot — a determined toolbox character with a sledgehammer, smashing through rubble
   actions:
     - theme: brand
       text: Get Started

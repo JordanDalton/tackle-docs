@@ -12,7 +12,8 @@ export default defineConfig({
     hostname: 'https://tackle.jordandalton.com',
   },
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { property: 'og:site_name', content: 'Laravel Tackle' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:image', content: 'https://tackle.jordandalton.com/og.png' }],
