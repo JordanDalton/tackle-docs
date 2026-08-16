@@ -58,6 +58,9 @@ The core package is the harness. Around it:
 - **[Tackle Review](/integrations/review-action)** — a GitHub Action that wraps
   `ai:review`, `ai:respond`, and `ai:upgrade` so every pull request gets
   reviewed with one workflow file.
+- **[Tackle Codex](/integrations/codex)** — an OpenAI Codex provider: run the
+  agents on your ChatGPT subscription (usage records as $0) or an OpenAI API
+  key.
 - **[MCP server](/integrations/mcp)** — `tackle:mcp` serves Tackle's
   Laravel-aware tools to any MCP client (Claude Code, Cursor, Zed), with the
   same safety layer enforced.

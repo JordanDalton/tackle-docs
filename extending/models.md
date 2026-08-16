@@ -29,6 +29,14 @@ AI_CODE_PRICE_INPUT=0
 AI_CODE_PRICE_OUTPUT=0
 ```
 
+## Subscription-based providers
+
+Providers don't have to be API-key services: the
+[Tackle Codex](/integrations/codex) add-on registers a `codex` driver that
+runs the agents on OpenAI's Codex models via your ChatGPT subscription, with
+usage recorded as $0 against the session budget. It's also a working example
+of packaging a custom `laravel/ai` driver for Tackle.
+
 ## The model catalog
 
 Budget rates resolve automatically from Tackle's built-in model catalog

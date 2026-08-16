@@ -67,6 +67,14 @@ in `config/tackle.php` under `pricing.models`. Non-Anthropic built-in rates
 are best-effort snapshots — verify against your provider's pricing page when
 the budget matters.
 
+**Have a ChatGPT subscription?** The [Tackle Codex](/integrations/codex)
+add-on runs every agent on OpenAI's Codex models using your ChatGPT plan — no
+per-token billing:
+
+```bash
+php artisan tackle:install codex   # then: AI_CODE_PROVIDER=codex
+```
+
 Switch models per session with `ai:code --model=... [--provider=...]` (also on
 `ai:run`), or mid-session with `/model`.
 
