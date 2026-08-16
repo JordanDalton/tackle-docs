@@ -11,6 +11,35 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://tackle.jordandalton.com',
   },
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['meta', { property: 'og:site_name', content: 'Laravel Tackle' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:image', content: 'https://tackle.jordandalton.com/og.png' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://tackle.jordandalton.com/og.png' }],
+  ],
+  transformPageData(pageData, { siteConfig }) {
+    const site = siteConfig.site
+    const path = pageData.relativePath
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '')
+    const url = `https://tackle.jordandalton.com/${path}`
+    const title = pageData.title ? `${pageData.title} | ${site.title}` : site.title
+    const description = pageData.description || site.description
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+      ['link', { rel: 'canonical', href: url }],
+    )
+  },
   themeConfig: {
     search: {
       provider: 'local',
