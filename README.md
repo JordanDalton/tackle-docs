@@ -16,10 +16,9 @@ npm run docs:preview   # preview the production build
 
 ## Deployment
 
-Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
-The custom domain (`tackle.jordandalton.com`) is set by `public/CNAME`; point a
-DNS CNAME record for `tackle` at `<username>.github.io` and enable Pages
-(source: GitHub Actions) in the repository settings.
+Hosted on Laravel Forge as a static site: pushes to `main` trigger a Quick
+Deploy that runs `npm ci && npm run docs:build`, and nginx serves
+`.vitepress/dist` as the web directory.
 
 ## Structure
 
