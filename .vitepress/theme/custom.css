@@ -3,6 +3,14 @@
  * orange (headband/gloves) #f0662f, navy (toolbox) #2d4076
  */
 :root {
+  /* Warm cream light mode, matching the mascot artwork / OG card */
+  --vp-c-bg: #faf5ec;
+  --vp-c-bg-alt: #f3ecde;
+  --vp-c-bg-soft: #f1e9d8;
+  --vp-c-bg-elv: #faf5ec;
+  --vp-c-divider: #e6ddcb;
+  --vp-c-gutter: #e6ddcb;
+
   --vp-c-brand-1: #d9571f;
   --vp-c-brand-2: #f0662f;
   --vp-c-brand-3: #f0662f;
@@ -23,6 +31,14 @@
 }
 
 .dark {
+  /* Navy-tinted dark mode from the mascot's toolbox blue */
+  --vp-c-bg: #131829;
+  --vp-c-bg-alt: #0e1220;
+  --vp-c-bg-soft: #1b2136;
+  --vp-c-bg-elv: #1b2136;
+  --vp-c-divider: #262e47;
+  --vp-c-gutter: #0e1220;
+
   --vp-c-brand-1: #f68a58;
   --vp-c-brand-2: #f0662f;
   --vp-c-brand-3: #f0662f;
