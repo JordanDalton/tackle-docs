@@ -89,6 +89,7 @@ export default defineConfig({
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
           { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
           { text: 'MCP Server', link: '/integrations/mcp' },
+          { text: 'Laravel Nightwatch', link: '/integrations/nightwatch' },
         ],
       },
     ],
@@ -127,6 +128,7 @@ export default defineConfig({
         items: [
           { text: 'GitHub Issues', link: '/integrations/github' },
           { text: 'Sentry', link: '/integrations/sentry' },
+          { text: 'Laravel Nightwatch', link: '/integrations/nightwatch' },
           { text: 'MCP Server', link: '/integrations/mcp' },
           { text: 'Tackle Remote', link: '/integrations/remote' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },

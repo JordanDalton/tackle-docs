@@ -5,6 +5,11 @@ commands, dispatches an AI agent to diagnose the exception, patch the code,
 verify the fix with your test suite, and either open a pull request or apply
 the fix directly — all without you lifting a finger.
 
+The same runtime also accepts production issues pushed in by
+[Laravel Nightwatch](/integrations/nightwatch), which extends it past failures
+in this process — and past exceptions, to slow routes, jobs, commands, and
+scheduled tasks.
+
 ## How it works
 
 1. A job fails → Laravel fires the `JobFailed` event.
@@ -78,6 +83,12 @@ patch the code, and post the PR link — your dev environment healing itself.
 [`ai:run`](/agents/headless); the interactive `ai:code` and `ai:fix` sessions
 need a real terminal.)
 
+::: warning `queue:work` caches config at boot
+A running worker will not see changes to `AI_CODE_HEALING_MODE`,
+`AI_CODE_PROVIDER`, or `AI_CODE_BUDGET` in `.env`. Restart it after any config
+change, or it keeps healing with whatever it booted with.
+:::
+
 ## GitHub token setup
 
 For PR mode, Tackle needs a GitHub token with the `repo` scope.
@@ -148,6 +159,23 @@ not re-dispatched after a patch (they run on their own schedule). The fix
 simply takes effect the next time the task runs.
 
 No extra configuration is needed beyond `AI_CODE_HEALING_ENABLED=true`.
+
+## Production issues from Laravel Nightwatch
+
+The listeners above only fire for failures inside your own process. To heal what
+production sees — including performance regressions, which no exception-based
+integration reaches — wire up the
+[Laravel Nightwatch webhook](/integrations/nightwatch):
+
+```env
+TACKLE_NIGHTWATCH_ENABLED=true
+TACKLE_NIGHTWATCH_SECRET=whsec_...
+```
+
+Nightwatch groups occurrences into a single issue and fires once when it opens,
+so you get one pull request per problem rather than one per exception. See the
+[Nightwatch integration page](/integrations/nightwatch) for the gates, the
+signature scheme, and the setup steps that are easy to miss.
 
 ## Per-class opt-out
 
