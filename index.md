@@ -1,5 +1,8 @@
 ---
 layout: home
+title: Laravel Tackle
+titleTemplate: ':title — AI Coding Agents for Laravel'
+description: 'Laravel Tackle is an AI agent harness for Laravel: coding agents that read your codebase, run your tests, review your PRs, upgrade dependencies, and heal failed jobs — installed via Composer.'
 
 hero:
   name: Laravel Tackle

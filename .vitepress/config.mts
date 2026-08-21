@@ -1,5 +1,24 @@
 import { defineConfig } from 'vitepress'
 
+// Same algorithm as VitePress's internal createTitle(), so transformPageData
+// can emit og:title / twitter:title that match the rendered <title> exactly.
+function resolveTitle(site, pageData) {
+  const title = pageData.title || site.title
+  const template = pageData.titleTemplate ?? site.titleTemplate
+  if (typeof template === 'string' && template.includes(':title')) {
+    return template.replace(/:title/g, title)
+  }
+  const suffix =
+    template === false
+      ? ''
+      : template === true || template === undefined
+        ? ` | ${site.title}`
+        : site.title === template
+          ? ''
+          : ` | ${template}`
+  return title === suffix.slice(3) ? title : `${title}${suffix}`
+}
+
 export default defineConfig({
   title: 'Laravel Tackle',
   description:
@@ -37,7 +56,10 @@ export default defineConfig({
         ? raw.replace(/index\.md$/, '')
         : raw.replace(/\.md$/, '.html')
     const url = `https://tackle.jordandalton.com/${path}`
-    const title = pageData.title ? `${pageData.title} | ${site.title}` : site.title
+    // Mirror VitePress's own <title> resolution so the social/canonical tags
+    // never drift from what the browser tab shows — including pages (the home
+    // page especially) that override titleTemplate.
+    const title = resolveTitle(site, pageData)
     const description = pageData.description || site.description
 
     pageData.frontmatter.head ??= []
