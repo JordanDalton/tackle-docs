@@ -113,6 +113,8 @@ All healer options live under the `healing` key in `config/tackle.php`:
 |---|---|---|---|
 | `enabled` | `AI_CODE_HEALING_ENABLED` | `false` | Enable or disable the healer |
 | `mode` | `AI_CODE_HEALING_MODE` | `pr` | `pr` = open a pull request; `patch` = apply directly |
+| `model` | `AI_CODE_HEALING_MODEL` | *(falls back to `tackle.model`)* | Model heals run on. Heals run unattended on the queue, so pinning a cheaper model here than your interactive `tackle.model` is common |
+| `provider` | `AI_CODE_HEALING_PROVIDER` | *(falls back to `tackle.provider`)* | Provider heals run on |
 | `queue` | `AI_CODE_HEALING_QUEUE` | `healer` | Queue name for the `HealJobFailure` job |
 | `threshold` | `AI_CODE_HEALING_THRESHOLD` | `1` | Number of failures before healing triggers |
 | `base_branch` | `AI_CODE_HEALING_BASE_BRANCH` | `main` | Branch PRs are opened against |
