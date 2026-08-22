@@ -9,7 +9,16 @@ php artisan ai:eval                     # the built-in suite
 php artisan ai:eval --case=div-by-zero  # one case (repeatable)
 php artisan ai:eval --model=... --budget=0.50
 php artisan ai:eval --json              # machine-readable, for CI
+php artisan ai:eval --agent="App\\Ai\\LeanAgent"   # benchmark a different toolset
 ```
+
+::: tip Which agent is measured
+By default `ai:eval` benchmarks the agent `ai:code`/`ai:run` use, so cost and
+fix-rate reflect production. That agent carries ~24 tool schemas, re-sent every
+step (no prompt caching yet), which dominates the per-case token count. Point
+`--agent` at a leaner `CodingAgent` to measure exactly what that toolset costs
+against the same cases.
+:::
 
 ## How a case is graded
 
