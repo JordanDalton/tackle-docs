@@ -21,6 +21,7 @@ infrastructure you can extend or build on top of:
 | [`ai:explain`](/agents/explain-and-test) | Explains what a file, class, or method does in plain English. |
 | [`ai:test`](/agents/explain-and-test#generate-tests) | Generates a Pest test file for any class or method. |
 | [`ai:onboard`](/agents/onboard) | Onboards a new developer: a guided, read-only tour of the codebase — what it is, how it's put together, how to run it, where to be careful — then answers their questions. `--write` saves it as `docs/ONBOARDING.md`. |
+| [`ai:eval`](/agents/eval) | Benchmarks the agent against seeded bugs — fix rate, false-fix rate, tokens, cost. Makes harness changes measurable. |
 | [`ai:upgrade`](/agents/upgrade) | Safe major version upgrades for Composer dependencies — audit, plan, resolve, fix, verify — in an isolated worktree, delivered as a PR. |
 | [Self-healer](/agents/self-healing) | An autonomous agent that listens for failed jobs and scheduled tasks, diagnoses the exception, patches the code, and opens a PR or applies the fix. |
 

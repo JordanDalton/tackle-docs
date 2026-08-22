@@ -121,6 +121,7 @@ export default defineConfig({
           { text: 'Explain & Test', link: '/agents/explain-and-test' },
           { text: 'Onboard a Developer (ai:onboard)', link: '/agents/onboard' },
           { text: 'Dependency Upgrades (ai:upgrade)', link: '/agents/upgrade' },
+          { text: 'Benchmark the Agent (ai:eval)', link: '/agents/eval' },
           { text: 'Self-Healing', link: '/agents/self-healing' },
         ],
       },
