@@ -101,6 +101,16 @@ Serves Tackle's tools over the Model Context Protocol — see
 Serves the mobile browser UI (requires the
 [Tackle Remote](/integrations/remote) package).
 
+## tackle:eval
+
+Scaffolds a new [`ai:eval`](/agents/eval) case into your project's `evals/`
+directory (a `tackle:` generator, like `tackle:tool`/`tackle:agent` — it writes
+a file, it does not run the agent):
+
+```bash
+php artisan tackle:eval "refund rounding"   # writes evals/refund-rounding.php
+```
+
 ## tackle:tool / tackle:agent
 
 Generators for [custom tools and agents](/extending/custom-tools#generators-and-stubs):

@@ -32,7 +32,13 @@ CI job.
 
 ## Adding your own cases
 
-Drop `*.php` files in your project's `evals/` directory (configurable via
+Scaffold one with the generator, then fill it in:
+
+```bash
+php artisan tackle:eval "refund rounding"   # writes evals/refund-rounding.php
+```
+
+`tackle:eval` **generates** a case; `ai:eval` **runs** them. Under the hood a case is just a file: drop `*.php` files in your project's `evals/` directory (configurable via
 `tackle.evals.path`). Each file returns an `EvalCase` — or an array of them —
 and is merged into the suite; a case whose `id` matches a built-in overrides it.
 Set `tackle.evals.include_builtin` to `false` to run only your own.
