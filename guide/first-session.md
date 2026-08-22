@@ -93,3 +93,5 @@ your next task. If something looks wrong, say so or discard with
 - [Project Instructions](/guide/project-instructions) — record your conventions
   once in `TACKLE.md` instead of repeating them in every prompt.
 - [Session Memory](/guide/session-memory) — sessions resume where you left off.
+- [Onboard a Developer (ai:onboard)](/agents/onboard) — new to this codebase
+  yourself? Let the agent give you the tour first.

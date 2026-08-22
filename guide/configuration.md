@@ -55,6 +55,9 @@ return [
 
     // Glob patterns (relative to workspace) the agent can never read or write
     'protected_paths' => ['.env', '.env.*', 'storage/*', 'vendor/*', '.git/*'],
+    'ignored_directories' => ['node_modules', '.git', 'vendor', 'storage', 'bootstrap/cache', 'public/build'],
+    'max_tool_result_chars' => env('AI_CODE_MAX_TOOL_RESULT_CHARS', 48000),
+    'max_context_chars' => env('AI_CODE_MAX_CONTEXT_CHARS', 600000),
 
     // Root directory for the agent — null defaults to base_path()
     'workspace' => null,
@@ -99,6 +102,30 @@ prompting. Add your own patterns here if your project has additional secrets.
 
 For an honest account of what path protection does and doesn't guarantee, read
 [What the guards do and don't stop](/guide/safety#what-the-guards-do-and-don-t-stop).
+
+## Context guards
+
+A tool result is re-sent on every later step of a turn, so one oversized
+result — a recursive listing that walks `node_modules`, a search whose snippet
+is a minified line, a binary read — is paid for again and again until the turn
+ends, far past what the budget check (which runs when a stream finishes) can
+catch. Three settings bound it, all enforced in PHP:
+
+```php
+// Skipped by Glob and SearchCode on recursive walks (a relevance filter,
+// not a security boundary — the agent can still target a file inside them)
+'ignored_directories' => ['node_modules', '.git', 'vendor', 'storage', 'bootstrap/cache', 'public/build'],
+
+// Hard cap on any single tool result, for every tool that runs through the harness
+'max_tool_result_chars' => env('AI_CODE_MAX_TOOL_RESULT_CHARS', 48000),
+
+// Tool output one turn may accumulate before further tool calls are refused
+// and the agent is told to finish with what it has (resets per turn;
+// subagents get their own counter)
+'max_context_chars' => env('AI_CODE_MAX_CONTEXT_CHARS', 600000),
+```
+
+`ReadFile` additionally refuses binary files and truncates very large ones.
 
 ## Worktree isolation
 

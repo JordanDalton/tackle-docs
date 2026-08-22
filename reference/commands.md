@@ -1,7 +1,7 @@
 # Utility Commands
 
 The agent commands (`ai:code`, `ai:run`, `ai:fix`, `ai:review`, `ai:respond`,
-`ai:explain`, `ai:test`, `ai:upgrade`) each have their own page under
+`ai:explain`, `ai:test`, `ai:onboard`, `ai:upgrade`) each have their own page under
 [The Agents](/agents/interactive). This page covers the supporting
 `tackle:*` commands.
 

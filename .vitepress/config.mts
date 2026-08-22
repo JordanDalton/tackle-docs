@@ -119,6 +119,7 @@ export default defineConfig({
           { text: 'Fix an Issue (ai:fix)', link: '/agents/fix' },
           { text: 'Code Review (ai:review)', link: '/agents/review' },
           { text: 'Explain & Test', link: '/agents/explain-and-test' },
+          { text: 'Onboard a Developer (ai:onboard)', link: '/agents/onboard' },
           { text: 'Dependency Upgrades (ai:upgrade)', link: '/agents/upgrade' },
           { text: 'Self-Healing', link: '/agents/self-healing' },
         ],
