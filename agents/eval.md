@@ -15,9 +15,17 @@ php artisan ai:eval --agent="App\\Ai\\LeanAgent"   # benchmark a different tools
 ::: tip Which agent is measured
 By default `ai:eval` benchmarks the agent `ai:code`/`ai:run` use, so cost and
 fix-rate reflect production. That agent carries ~24 tool schemas, re-sent every
-step (no prompt caching yet), which dominates the per-case token count. Point
-`--agent` at a leaner `CodingAgent` to measure exactly what that toolset costs
-against the same cases.
+step, which dominates the per-case token count. Two built-in agents let you
+measure the levers against the same case:
+
+- `--agent=lean` — `LeanCodingAgent`, 6 fix-task tools. ~37% cheaper on a fix
+  case, same result.
+- `--agent=cached` — `CachingCodingAgent`, the full agent with an Anthropic
+  `cache_control` breakpoint on the system + tool prefix. On a fix case the
+  reported fresh input dropped ~79% (the fixed prefix moves to cached reads,
+  billed at ~10%).
+
+Or point `--agent` at your own `CodingAgent` class.
 :::
 
 ## How a case is graded
