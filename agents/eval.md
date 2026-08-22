@@ -59,19 +59,26 @@ use Tackle\Evals\Probe;
 
 return new EvalCase(
     id: 'refund-rounding',
-    title: 'Refund amount is rounded down, losing a cent',
+    title: 'Refund is rounded down, losing a cent',
     category: 'bug',
     files: [
         'Refund.php' => <<<'PHP'
         <?php
-        class Refund {
-            public function cents(float $dollars): int { return (int) ($dollars * 100); }
+
+        class Refund
+        {
+            public function cents(float $dollars): int
+            {
+                return (int) ($dollars * 100);
+            }
         }
         PHP,
     ],
-    prompt: "Refund::cents() truncates instead of rounding — 19.99 dollars becomes 1998 cents. Fix it to round to the nearest cent.",
-    // The probe runs in a subprocess: set $target (bug fixed) and $happy
-    // (previously-correct behaviour still holds).
+    prompt: 'Refund::cents() truncates instead of '
+        .'rounding — 19.99 becomes 1998 cents. '
+        .'Fix it to round to the nearest cent.',
+    // Probe runs in a subprocess: set $target (bug
+    // fixed) and $happy (old behaviour still holds).
     grader: Probe::subprocess('Refund.php', '
         $r = new Refund();
         $target = $r->cents(19.99) === 1999;
