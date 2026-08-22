@@ -127,6 +127,23 @@ catch. Three settings bound it, all enforced in PHP:
 
 `ReadFile` additionally refuses binary files and truncates very large ones.
 
+## Prompt caching
+
+On Anthropic, every agent marks the system prompt + tool schemas with a
+`cache_control` breakpoint, so the fixed per-step prefix — which is otherwise
+re-sent at full price on every step — is billed at ~10% on repeat steps. It is
+**on by default** and transparent (identical behaviour, lower cost); measured
+~75% lower fresh input on a fix case.
+
+```php
+// config/tackle.php
+'prompt_cache' => env('AI_CODE_PROMPT_CACHE', true),
+```
+
+Set `AI_CODE_PROMPT_CACHE=false` to disable it everywhere, or measure its effect
+on a benchmark with `ai:eval --no-cache`. It is a no-op for non-Anthropic
+providers.
+
 ## Worktree isolation
 
 Worktree mode runs the agent against an isolated git worktree rather than your

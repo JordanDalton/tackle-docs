@@ -10,6 +10,7 @@ php artisan ai:eval --case=div-by-zero  # one case (repeatable)
 php artisan ai:eval --model=... --budget=0.50
 php artisan ai:eval --json              # machine-readable, for CI
 php artisan ai:eval --agent="App\\Ai\\LeanAgent"   # benchmark a different toolset
+php artisan ai:eval --no-cache          # measure caching's effect
 ```
 
 ::: tip Which agent is measured
