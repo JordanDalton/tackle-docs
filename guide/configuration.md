@@ -144,6 +144,10 @@ Set `AI_CODE_PROMPT_CACHE=false` to disable it everywhere, or measure its effect
 on a benchmark with `ai:eval --no-cache`. It is a no-op for non-Anthropic
 providers.
 
+Budget tracking is cache-aware: cache reads are billed at ~10% and the first
+write at 1.25× of the input rate, so budgets and `ai:eval` costs stay accurate
+with caching on.
+
 ## Tool scoping
 
 The coding agent's tools are part of the system prompt, re-sent on every step,
