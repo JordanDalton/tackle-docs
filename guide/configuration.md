@@ -144,6 +144,26 @@ Set `AI_CODE_PROMPT_CACHE=false` to disable it everywhere, or measure its effect
 on a benchmark with `ai:eval --no-cache`. It is a no-op for non-Anthropic
 providers.
 
+## Tool scoping
+
+The coding agent's tools are part of the system prompt, re-sent on every step,
+so a smaller toolset is cheaper. Two things keep it lean:
+
+- **Integration tools are lazy.** GitHub tools appear only when `tackle.github.token`
+  is set, Sentry's only with `tackle.sentry.auth_token`, Telescope's only when
+  Telescope is installed. The agent couldn't use them unconfigured anyway, so
+  this trims the per-step floor with zero capability loss.
+- **An explicit allowlist.** Set `tackle.tools` to a list of tool class base
+  names to restrict the agent further:
+
+```php
+// config/tackle.php — only these tools, nothing else
+'tools' => ['ReadFile', 'EditFile', 'WriteFile', 'Glob', 'SearchCode', 'RunTests'],
+```
+
+Measure the cost/fix-rate trade-off of any toolset with
+[`ai:eval --agent`](/agents/eval). Null (the default) = all tools.
+
 ## Worktree isolation
 
 Worktree mode runs the agent against an isolated git worktree rather than your
