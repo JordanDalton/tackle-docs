@@ -48,6 +48,18 @@ The report gives:
 The command exits non-zero if any case regressed or errored, so it can gate a
 CI job.
 
+## Nightly CI
+
+Track the agent's fix-rate over time — scaffold a scheduled workflow:
+
+```bash
+php artisan tackle:install eval-ci
+```
+
+It writes `.github/workflows/tackle-eval.yml` (nightly + `workflow_dispatch`) that runs `ai:eval --json` and uploads the report as an artifact. Add the `ANTHROPIC_API_KEY` secret. Each run calls the model for every case, so it costs real tokens — tune the schedule and case set to taste.
+
+The built-in suite ships ~10 cases across categories (division-by-zero, off-by-one, percentage math, tax rounding, nullable relations, cross-file bugs, empty-array boundaries, slugs, missing enum cases, recursion base cases) — enough to catch a regression in a change to the agent; add your own for your domain.
+
 ## Adding your own cases
 
 Scaffold one with the generator, then fill it in:
