@@ -56,7 +56,17 @@ Track the agent's fix-rate over time — scaffold a scheduled workflow:
 php artisan tackle:install eval-ci
 ```
 
-It writes `.github/workflows/tackle-eval.yml` (nightly + `workflow_dispatch`) that runs `ai:eval --json` and uploads the report as an artifact. Add the `ANTHROPIC_API_KEY` secret. Each run calls the model for every case, so it costs real tokens — tune the schedule and case set to taste.
+It writes `.github/workflows/tackle-eval.yml` (nightly + `workflow_dispatch`) that runs `ai:eval --json` and uploads the report as an artifact. Add the `ANTHROPIC_API_KEY` secret.
+
+::: warning It costs tokens on every run
+Each run calls the model **for every case** — roughly $0.09 for the 10-case suite on Haiku, more on Sonnet. It's a template you own; tune it:
+
+- **Run it less often** — change the `cron` to weekly, or drop the `schedule:` block entirely and keep only `workflow_dispatch` (manual runs).
+- **Use a cheaper model** — `php artisan ai:eval --json --model=claude-haiku-4-5-20251001`.
+- **Scope the suite** — `ai:eval --case=...` to run a representative subset.
+
+The job also **fails the check** on any regression or error (`ai:eval` exits non-zero), so a red run means the agent got worse.
+:::
 
 The built-in suite ships ~10 cases across categories (division-by-zero, off-by-one, percentage math, tax rounding, nullable relations, cross-file bugs, empty-array boundaries, slugs, missing enum cases, recursion base cases) — enough to catch a regression in a change to the agent; add your own for your domain.
 
