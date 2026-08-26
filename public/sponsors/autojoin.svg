@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 32" role="img" aria-label="Autojoin">
+  <title>Autojoin</title>
+  <rect x="0" y="5" width="22" height="22" rx="6" fill="#1b1812"/>
+  <circle cx="11" cy="16" r="4" fill="#409d48"/>
+  <text
+    x="30"
+    y="22.5"
+    font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="18"
+    font-weight="600"
+    letter-spacing="-0.4"
+    fill="#1b1812"
+  >Autojoin</text>
+</svg>
