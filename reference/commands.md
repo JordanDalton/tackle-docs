@@ -27,6 +27,7 @@ php artisan tackle:map                      # the index: every model and its tab
 php artisan tackle:map Post                 # one model, in full
 php artisan tackle:map --all                # every model, in full
 php artisan tackle:map --route=posts.update # one route: middleware, rules, authorization
+php artisan tackle:map --plain              # exactly what the agent sees, uncoloured
 php artisan tackle:map --fresh              # discard the cached map and rebuild
 ```
 

@@ -185,8 +185,15 @@ php artisan tackle:map                      # the index
 php artisan tackle:map Post                 # one model, in full
 php artisan tackle:map --all                # every model
 php artisan tackle:map --route=posts.update # one route
+php artisan tackle:map --plain              # exactly what the agent sees
 php artisan tackle:map --fresh              # discard the cache and rebuild
 ```
+
+The terminal output is colour-coded and aligned for scanning — keys and
+uniqueness in cyan, foreign keys in magenta, relation targets in green,
+nullability and defaults dimmed — while the agent gets the plain text above,
+because colour codes in a context window are tokens spent on nothing. `--plain`
+prints the agent's version when you want to see precisely what it received.
 
 Useful for warming the cache in CI, and for seeing exactly what your agent sees.
 
