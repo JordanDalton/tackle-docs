@@ -106,6 +106,7 @@ export default defineConfig({
         text: 'Core Concepts',
         items: [
           { text: 'Configuration', link: '/guide/configuration' },
+          { text: 'The Application Map', link: '/guide/app-map' },
           { text: 'Project Instructions (TACKLE.md)', link: '/guide/project-instructions' },
           { text: 'Session Memory', link: '/guide/session-memory' },
           { text: 'Safety', link: '/guide/safety' },

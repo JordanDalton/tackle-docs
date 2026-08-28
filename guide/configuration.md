@@ -168,6 +168,28 @@ so a smaller toolset is cheaper. Two things keep it lean:
 Measure the cost/fix-rate trade-off of any toolset with
 [`ai:eval --agent`](/agents/eval). Null (the default) = all tools.
 
+## The application map
+
+The agent runs inside your booted application, so it can read the real schema,
+the real relationships, and the real middleware stack rather than inferring
+them from files. A one-line-per-model index goes into every session's system
+prompt; the detail comes on demand through `DescribeModels` and `DescribeRoute`.
+
+```php
+// config/tackle.php
+'app_map' => [
+    'enabled' => env('AI_CODE_APP_MAP', true),
+    'index' => env('AI_CODE_APP_MAP_INDEX', true),
+    'cache' => env('AI_CODE_APP_MAP_CACHE', true),
+    'probe_untyped_relations' => env('AI_CODE_APP_MAP_PROBE_RELATIONS', false),
+],
+```
+
+It is on by default and read-only — schema and metadata, never rows — so it is
+safe to leave enabled in every environment. See [The Application
+Map](/guide/app-map) for what it returns, how it is cached, and what it
+deliberately refuses to do.
+
 ## Worktree isolation
 
 Worktree mode runs the agent against an isolated git worktree rather than your

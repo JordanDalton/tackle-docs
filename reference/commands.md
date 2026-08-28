@@ -16,6 +16,23 @@ php artisan tackle:init
 php artisan tackle:init --force   # overwrite an existing file
 ```
 
+## tackle:map
+
+Shows the [application map](/guide/app-map) — what the agent sees when it looks
+at your Eloquent layer. Reads the live connection and the booted application,
+so it is authoritative where a model file and its migrations are not.
+
+```bash
+php artisan tackle:map                      # the index: every model and its table
+php artisan tackle:map Post                 # one model, in full
+php artisan tackle:map --all                # every model, in full
+php artisan tackle:map --route=posts.update # one route: middleware, rules, authorization
+php artisan tackle:map --fresh              # discard the cached map and rebuild
+```
+
+Useful for warming the cache in CI, and for seeing exactly what your agent sees
+before you blame it for a wrong column name.
+
 ## tackle:health
 
 Verifies that the package is correctly set up. Run it after installation or

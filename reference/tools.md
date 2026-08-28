@@ -32,7 +32,8 @@ These tools are available to the agent in every session.
 | `QueryDatabase` | Runs a read-only `SELECT` query and returns results as JSON. Capped at 100 rows. |
 | `ListRoutes` | Returns a formatted table of all registered routes with method, URI, name, and action. |
 | `DescribeSchema` | Real DB schema from the live connection — tables, columns, types, indexes, foreign keys. Authoritative, not guessed from migrations. |
-| `DescribeModels` | The Eloquent model graph via reflection — each model's table, fillable, casts, and relationships. |
+| `DescribeModels` | The [application map](/guide/app-map) for one model — real columns and types from the live connection, casts, fillable, relations (type, related model, foreign key), local and global scopes, accessors, observers, policy, and factory states. With no argument, lists every model. Schema only, never rows. |
+| `DescribeRoute` | One route as the framework resolved it — the middleware stack with groups and aliases expanded, route-model bindings, the FormRequest and its validation rules, and the authorization guarding it. `ListRoutes` answers what exists; this answers what happens. |
 | `AppInfo` | The application stack — Laravel/PHP versions, drivers (via `artisan about`), and notable installed packages (Livewire/Inertia/Filament, Pest/PHPUnit, Fortify, …). |
 | `GitDiff` | Shows a git diff — supports staged, a specific commit, a branch range, or a path. |
 | `ReadTelescopeEntry` | Reads Telescope exception entries. Pass a job UUID for a specific lookup, or omit to return recent exceptions. No-ops gracefully if Telescope is not installed. |
@@ -48,5 +49,9 @@ These tools are available to the agent in every session.
 
 All file reads happen in-process. Everything that executes code runs as a
 subprocess, so a broken generated file cannot crash the agent session.
+
+`DescribeSchema`, `DescribeModels`, and `DescribeRoute` are the tools an agent
+running outside your application cannot have — see [The Application
+Map](/guide/app-map) for what they return and why it beats reading the files.
 
 Want to add your own? See [Custom Tools](/extending/custom-tools).

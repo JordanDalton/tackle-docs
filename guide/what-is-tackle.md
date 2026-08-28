@@ -47,6 +47,14 @@ Tackle has three layers:
 | **Agents** | Classes implementing `CodingAgent` that receive a prompt, call tools, and return a result. Tackle ships several; you can add your own. |
 | **Safety** | `PathGuard` blocks reads/writes outside the workspace and protected paths. `BudgetTracker` aborts the session when estimated spend exceeds the limit. Shell modes gate command execution. All enforced in PHP — not advisory. |
 
+Living inside the booted application is the part an external tool cannot copy.
+The agent can ask the framework instead of inferring from files: the real
+columns and types off the live connection, relationships and casts by
+reflection, observers off the event dispatcher, the fully resolved middleware
+stack for a route. Tackle packages that as [the application
+map](/guide/app-map) — an index of your models in every session's system
+prompt, and the full shape of any one of them a single tool call away.
+
 The self-healer adds a fourth piece: an event-driven runtime that spins up an
 agent autonomously in an isolated git worktree whenever a job or scheduled task
 fails. It is the same harness, running unattended.
