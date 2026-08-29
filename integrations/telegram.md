@@ -37,12 +37,18 @@ php artisan tackle:telegram --pair
 ```
   8271428961  Jordan D @heliguy84  (private)
   TACKLE_TELEGRAM_CHATS=8271428961
+
+  Allow Jordan D @heliguy84 to drive this project? (yes/no) [no]
 ```
 
-Paste that line into `.env`. `--pair` only listens and reports — it writes
-nothing and acts on nothing, so anyone who finds your bot can make it print
-their id, and none of them can make it do anything. Who to trust stays a
-decision a human makes reading a terminal.
+Say yes and it writes the line into `.env`, appending rather than replacing so
+pairing a second device does not revoke the first.
+
+It asks, and defaults to no, because this is the allowlist — the whole security
+model — and the id on screen might belong to whoever else found your bot. A
+human confirming they recognise the name is the check. `--pair` itself acts on
+nothing it hears, so anyone can make it print their id and none of them can make
+it do anything.
 
 Then start a session. It stays in the foreground, like `ai:code`:
 
