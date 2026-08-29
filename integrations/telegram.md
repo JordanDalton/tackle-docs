@@ -21,13 +21,28 @@ the relay, and they are free.
 
 ## Setup
 
-Get a token from [@BotFather](https://t.me/botfather), message your bot once,
-and read the chat id from the update it sends:
+Get a token from [@BotFather](https://t.me/botfather):
 
 ```env
 TACKLE_TELEGRAM_TOKEN=123456:ABC...
-TACKLE_TELEGRAM_CHATS=987654321
 ```
+
+Then find out which chat is allowed to drive it. Open your bot in Telegram,
+send it anything, and run:
+
+```bash
+php artisan tackle:telegram --pair
+```
+
+```
+  8271428961  Jordan D @heliguy84  (private)
+  TACKLE_TELEGRAM_CHATS=8271428961
+```
+
+Paste that line into `.env`. `--pair` only listens and reports — it writes
+nothing and acts on nothing, so anyone who finds your bot can make it print
+their id, and none of them can make it do anything. Who to trust stays a
+decision a human makes reading a terminal.
 
 Then start a session. It stays in the foreground, like `ai:code`:
 
@@ -68,6 +83,25 @@ Built for a phone in a pocket rather than a terminal on a desk:
   open — by the time you reach your phone the agent may have moved on, and
   answering a question it is no longer asking is worse than missing one.
 - **Markdown rendered**, not printed as asterisks.
+
+## In your dev script
+
+Laravel's `php artisan dev` has a registry you can add to, so the bot comes up
+with the server, queue and Vite:
+
+```php
+// routes/console.php
+use Illuminate\Foundation\DevCommands;
+
+DevCommands::artisan('tackle:telegram --if-configured', 'telegram');
+```
+
+`--if-configured` idles instead of exiting when there is no token. That matters
+in both runners, for opposite reasons: `composer dev` runs under
+`concurrently --kill-others`, so an exit takes the whole environment down, while
+`php artisan dev` restarts a crashed process, so it would spin forever. Run on
+its own without a token it still fails loudly, because then you meant to start
+it.
 
 ## Commands
 
