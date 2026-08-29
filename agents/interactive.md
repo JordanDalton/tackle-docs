@@ -154,7 +154,7 @@ second ago is live on the next keystroke, including in tab completion.
 | | |
 |---|---|
 | `/save <name>` | Writes **your last prompt, verbatim**, to `.tackle/commands/<name>.md` |
-| `/edit [name]` | Opens it in `$EDITOR` — no name shows a picker |
+| `/edit [name]` | Opens it in `$EDITOR`, or edits it in the session when that is unset — no name shows a picker |
 | `/forget [name]` | Deletes it, after showing you what you are deleting |
 
 The moment worth catching is the one right after a prompt worked well:
@@ -172,6 +172,13 @@ confirms before overwriting, and leaves the file **uncommitted**: your team gets
 the command when you commit it, and you get to read the diff first. If you want
 it parameterised, `/edit` it and put `$ARGUMENTS` where the substitution goes —
 `/save` will not guess that for you.
+
+`/edit` hands the file to `$EDITOR` (or `$VISUAL`) when you have one set. When
+you don't — which is the default on macOS — it edits the command in the session
+instead: the current text, prefilled, `Ctrl+D` to save. It will not fall back to
+picking an editor for you, because dropping someone into a `vi` they did not
+choose and cannot exit is the one outcome worth avoiding. Export `EDITOR` in
+your shell profile to use your own.
 
 `/forget` tells you whether git still has a copy before it deletes anything, so
 you know whether `git checkout` can bring it back.
