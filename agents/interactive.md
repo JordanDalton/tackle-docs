@@ -89,6 +89,9 @@ The `ai:code` prompt understands commands. Type `/` to autocomplete them:
 | `/clear` | Forget the session history entirely |
 | `/sessions` | List saved sessions and how to resume them |
 | `/raw` | Toggle markdown tables between drawn and literal — see [Rendered tables](#rendered-tables) |
+| `/save <name>` | Save your last prompt as a project command |
+| `/edit [name]` | Open a project command in `$EDITOR` |
+| `/forget [name]` | Delete a project command |
 | `/help` | List all commands, including your project's own |
 | `/<name> [args]` | Run a [custom command](#custom-commands-tackle-commands) from `.tackle/commands` |
 
@@ -141,6 +144,37 @@ work headlessly too:
 ```bash
 php artisan ai:run "/deploy-check the billing module"
 ```
+
+### Managing them from the session
+
+You do not have to leave the session — or restart it — to work on these.
+`CustomCommands` reads the directory on every lookup, so a file written a
+second ago is live on the next keystroke, including in tab completion.
+
+| | |
+|---|---|
+| `/save <name>` | Writes **your last prompt, verbatim**, to `.tackle/commands/<name>.md` |
+| `/edit [name]` | Opens it in `$EDITOR` — no name shows a picker |
+| `/forget [name]` | Deletes it, after showing you what you are deleting |
+
+The moment worth catching is the one right after a prompt worked well:
+
+```
+> find every controller action that queries inside a loop and report the file:line
+… (a good answer)
+> /save find-n-plus-one
+```
+
+`/save` copies the text rather than asking the agent to reconstruct it, so it is
+free, instant, and word for word what you typed. It refuses names that collide
+with a built-in (a `plan.md` would never run — `/plan` catches the name first),
+confirms before overwriting, and leaves the file **uncommitted**: your team gets
+the command when you commit it, and you get to read the diff first. If you want
+it parameterised, `/edit` it and put `$ARGUMENTS` where the substitution goes —
+`/save` will not guess that for you.
+
+`/forget` tells you whether git still has a copy before it deletes anything, so
+you know whether `git checkout` can bring it back.
 
 ## Context compaction
 
