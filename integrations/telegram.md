@@ -50,6 +50,13 @@ human confirming they recognise the name is the check. `--pair` itself acts on
 nothing it hears, so anyone can make it print their id and none of them can make
 it do anything.
 
+::: tip Stop any running session first
+Telegram delivers each update exactly once, to whoever asks for it first. A
+session polling alongside `--pair` will take turns swallowing your messages,
+and the symptom is a bot that silently ignores you with nothing in any log to
+explain why.
+:::
+
 Then start a session. It stays in the foreground, like `ai:code`:
 
 ```bash
