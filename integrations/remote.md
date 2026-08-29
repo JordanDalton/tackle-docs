@@ -154,3 +154,9 @@ that.
 ## Links
 
 - [laravel-tackle-remote on GitHub](https://github.com/JordanDalton/laravel-tackle-remote)
+
+## Not the only way in
+
+[Telegram](/integrations/telegram) drives the same session from a chat instead
+of a browser — and because `getUpdates` is outbound-only, it works from anywhere
+without your phone needing to reach your machine at all.

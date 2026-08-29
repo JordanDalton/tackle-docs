@@ -85,6 +85,7 @@ export default defineConfig({
         text: 'Ecosystem',
         items: [
           { text: 'Tackle Remote', link: '/integrations/remote' },
+          { text: 'Telegram', link: '/integrations/telegram' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
           { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
@@ -134,6 +135,7 @@ export default defineConfig({
           { text: 'Laravel Nightwatch', link: '/integrations/nightwatch' },
           { text: 'MCP Server', link: '/integrations/mcp' },
           { text: 'Tackle Remote', link: '/integrations/remote' },
+          { text: 'Telegram', link: '/integrations/telegram' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
           { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
