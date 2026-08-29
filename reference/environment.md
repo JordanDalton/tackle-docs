@@ -13,6 +13,7 @@ All config options can be set via `.env`. Nothing requires editing a PHP file.
 | `AI_CODE_COMPACTION_KEEP` | `4` | Recent messages kept verbatim when compacting |
 | `AI_CODE_PRICE_INPUT` | auto | Input price per million tokens for budget estimation. Unset = resolved from the built-in model catalog (falls back to `3.00` for unknown models) |
 | `AI_CODE_PRICE_OUTPUT` | auto | Output price per million tokens for budget estimation. Unset = resolved from the built-in model catalog (falls back to `15.00` for unknown models) |
+| `AI_CODE_RENDER_TABLES` | `true` | Draw markdown tables in the agent's answer as [terminal tables](/agents/interactive#rendered-tables) instead of printing the pipes |
 | `AI_CODE_APP_MAP` | `true` | Enable the [application map](/guide/app-map) — schema and model introspection from the booted app |
 | `AI_CODE_APP_MAP_INDEX` | `true` | Inject the one-line-per-model map index into every session's system prompt |
 | `AI_CODE_APP_MAP_CACHE` | `true` | Persist the map to `storage/tackle/map.json` between processes |

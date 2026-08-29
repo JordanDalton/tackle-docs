@@ -88,8 +88,36 @@ The `ai:code` prompt understands commands. Type `/` to autocomplete them:
 | `/compact` | Summarize older session history to free context |
 | `/clear` | Forget the session history entirely |
 | `/sessions` | List saved sessions and how to resume them |
+| `/raw` | Toggle markdown tables between drawn and literal — see [Rendered tables](#rendered-tables) |
 | `/help` | List all commands, including your project's own |
 | `/<name> [args]` | Run a [custom command](#custom-commands-tackle-commands) from `.tackle/commands` |
+
+## Rendered tables
+
+When the agent answers with a markdown table — a list of users, a comparison,
+a summary of findings — the terminal draws it as a table rather than printing
+the pipes:
+
+```
+ ┌────┬──────────────┬───────────────────┬──────────┐
+ │ id │ name         │ email             │ verified │
+ ├────┼──────────────┼───────────────────┼──────────┤
+ │ 1  │ Ada Lovelace │ ada@example.com   │ yes      │
+ │ 2  │ Grace Hopper │ grace@example.com │ no       │
+ └────┴──────────────┴───────────────────┴──────────┘
+```
+
+The response is **not** buffered to do this. Markdown tables are line-based, so
+only the table's own lines are held back — every other line is released the
+moment its first character proves it is not a table row, and streams as it
+arrives. A table inside a fenced code block is left exactly as written, and a
+run of pipes with no separator row is printed verbatim rather than being
+reshaped into a table the model did not write.
+
+The conversation transcript always keeps the original markdown; this is
+presentation only. Type `/raw` to toggle it off for the session when you want
+the markdown itself — usually to paste it somewhere — or set
+`AI_CODE_RENDER_TABLES=false` to default it off.
 
 ## Custom commands (.tackle/commands)
 

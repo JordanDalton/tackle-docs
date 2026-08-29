@@ -168,6 +168,20 @@ so a smaller toolset is cheaper. Two things keep it lean:
 Measure the cost/fix-rate trade-off of any toolset with
 [`ai:eval --agent`](/agents/eval). Null (the default) = all tools.
 
+## Rendered tables
+
+A markdown table in the agent's answer is drawn as a table in the terminal
+rather than printed as pipes. Only the table's own lines are held back, so the
+rest of the response still streams as it arrives, and the transcript keeps the
+original markdown either way.
+
+```php
+// config/tackle.php
+'render_tables' => env('AI_CODE_RENDER_TABLES', true),
+```
+
+Toggle it for a single session with [`/raw`](/agents/interactive#rendered-tables).
+
 ## The application map
 
 The agent runs inside your booted application, so it can read the real schema,
