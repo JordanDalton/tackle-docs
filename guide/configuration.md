@@ -82,6 +82,14 @@ per-environment array (shown above). The `production` key defaults to `off`.
 You can override the mode for a single session with `--shell` — see
 [Interactive Coding](/agents/interactive#shell-mode-flag).
 
+`shell_allowlist` matches by prefix, and it ships with `php artisan` in it. In
+`allowlist` mode an artisan command therefore has to satisfy **both** lists: the
+shell allowlist *and* `artisan_allowlist`. Being able to run a shell does not
+widen what artisan may do, and `artisan_destructive` commands are refused
+outright in that mode, since there is nobody there to confirm them. (`approve`
+already puts a human in front of every command, and `yolo` is unrestricted by
+definition.)
+
 ## Artisan allowlist and destructive list
 
 `artisan_allowlist` controls which commands the agent may run freely.

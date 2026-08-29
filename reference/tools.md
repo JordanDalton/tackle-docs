@@ -30,6 +30,7 @@ These tools are available to the agent in every session.
 |---|---|
 | `ReadLog` | Returns the last N lines of `storage/logs/laravel.log`. Accepts an optional filter string. |
 | `QueryDatabase` | Runs a read-only `SELECT` query and returns results as JSON. Capped at 100 rows. |
+| `MutateDatabase` | One `UPDATE`, `INSERT`, or `DELETE`, run inside a transaction that is only committed once a human has confirmed the exact affected-row count. **Off by default** — see [Database writes](/guide/safety#database-writes). |
 | `ListRoutes` | Returns a formatted table of all registered routes with method, URI, name, and action. |
 | `DescribeSchema` | Real DB schema from the live connection — tables, columns, types, indexes, foreign keys. Authoritative, not guessed from migrations. |
 | `DescribeModels` | The [application map](/guide/app-map) for one model — real columns and types from the live connection, casts, fillable, relations (type, related model, foreign key), local and global scopes, accessors, observers, policy, and factory states. With no argument, lists every model. Schema only, never rows. |

@@ -81,6 +81,52 @@ The short version: Tackle's guards make the agent safe to *work with*. They do
 not make an agent running on your machine safe to *distrust*. Deploy the
 untrusted-input paths accordingly.
 
+## Database writes
+
+`QueryDatabase` is read-only, and that is not a configuration choice —
+anything that is not a `SELECT` is refused in PHP.
+
+The reason is an asymmetry worth stating plainly. Every other tool leans on the
+same safety net: your files are in git, so a bad edit is `git checkout`. Rows
+are not. A wrong `WHERE` on an `UPDATE` is a restore-from-backup.
+
+**Before enabling writes, consider not needing them.** A purpose-built tool for
+the change you actually want — `php artisan tackle:tool ResendInvoice` — is
+narrower than arbitrary SQL: you decide what can change, and the agent only
+decides when. It goes through the same hooks, events, and budget as every other
+tool.
+
+If you do want general writes, turn on `MutateDatabase`:
+
+```php
+// config/tackle.php
+'database' => [
+    'mutations' => env('AI_CODE_DB_MUTATIONS', false),
+    'environments' => ['local'],
+    'max_rows' => env('AI_CODE_DB_MUTATION_MAX_ROWS', 100),
+],
+```
+
+What it enforces, all in PHP:
+
+- **One statement.** `UPDATE`, `INSERT`, or `DELETE` only. Chained statements
+  are refused — a confirmed one-row update must not be able to carry a second
+  statement. DDL is refused too, because it cannot be rolled back on every
+  driver and so cannot be confirmed this way.
+- **A `WHERE` clause** on every `UPDATE` and `DELETE`.
+- **A transaction you get to veto.** The statement runs, the *exact* affected
+  row count comes back from the statement itself — nothing estimated, no SQL
+  parsed to guess an impact — and you see that number before anything is
+  committed. Decline and it rolls back.
+- **A row ceiling.** Anything over `max_rows` is rolled back rather than
+  offered for confirmation.
+- **A second lock on environment.** `environments` defaults to `local`, so the
+  flag alone cannot arm production.
+
+With no interactive user — `ai:run`, the healer, MCP — there is nobody to
+confirm, so the change is rolled back. `ai:run --yes` approves automatically;
+that is a deliberate choice to make about unattended data changes.
+
 ## Guard pack
 
 Tackle ships optional first-party hooks that block the concrete paths above.
