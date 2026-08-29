@@ -42,7 +42,9 @@ php artisan tackle:telegram --pair
 ```
 
 Say yes and it writes the line into `.env`, appending rather than replacing so
-pairing a second device does not revoke the first.
+pairing a second device does not revoke the first — then it exits, because
+pairing is a setup step rather than a session. A chat that is already allowed
+skips the question and says so.
 
 It asks, and defaults to no, because this is the allowlist — the whole security
 model — and the id on screen might belong to whoever else found your bot. A

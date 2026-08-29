@@ -120,6 +120,18 @@ Serves Tackle's tools over the Model Context Protocol — see
 Serves the mobile browser UI (requires the
 [Tackle Remote](/integrations/remote) package).
 
+## tackle:telegram
+
+Runs a coding session driven from Telegram — outbound-only, so it works from
+anywhere without your machine being reachable. Requires the
+[Tackle Telegram](/integrations/telegram) package.
+
+```bash
+php artisan tackle:telegram                   # start a session
+php artisan tackle:telegram --pair            # find the chat id and write it to .env
+php artisan tackle:telegram --if-configured   # idle instead of failing, for a dev script
+```
+
 ## tackle:eval
 
 Scaffolds a new [`ai:eval`](/agents/eval) case into your project's `evals/`
