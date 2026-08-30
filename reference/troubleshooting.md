@@ -2,9 +2,13 @@
 
 ## `HTTP request returned status code 401`
 
-Your API key is missing or incorrect. Check that `ANTHROPIC_API_KEY` (or the
-key for your chosen provider) is set in `.env` and that `config/ai.php` has
-been published and contains the matching provider block.
+Your API key is incorrect or revoked. A *missing* key no longer gets this
+far: since v1.56.1 every streaming command checks the configured provider's
+key before the first request and fails immediately with a message naming the
+provider and the variable to set — so a 401 usually means the key exists but
+is wrong. Check `ANTHROPIC_API_KEY` (or the key for your chosen provider) in
+the environment the run executes in — for CI runs, the secret your workflow
+passes.
 
 ## `Agent error: ...` and the session continues
 

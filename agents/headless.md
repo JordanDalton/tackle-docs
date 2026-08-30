@@ -28,7 +28,15 @@ php artisan ai:run "Fix the failing SubscriptionTest" --output=json | jq -r '.pr
   "files_changed": ["app/Models/Subscription.php", "tests/Feature/SubscriptionTest.php"],
   "diff_stat": "2 files changed, 24 insertions(+)",
   "interactions_denied": 0,
-  "usage": { "input_tokens": 41233, "output_tokens": 2210, "estimated_cost_usd": 0.1563 },
+  "usage": {
+    "input_tokens": 18,
+    "output_tokens": 2210,
+    "cache_read_tokens": 231226,
+    "cache_write_tokens": 18350,
+    "cache_hit_rate": 0.9265,
+    "estimated_cost_usd": 0.1563,
+    "measured": true
+  },
   "budget_usd": 1.0,
   "worktree": "/tmp/tackle-worktree-9f2ab1c4",
   "pr_url": "https://github.com/acme/app/pull/218",
@@ -37,6 +45,13 @@ php artisan ai:run "Fix the failing SubscriptionTest" --output=json | jq -r '.pr
   ]
 }
 ```
+
+`input_tokens` is **fresh** input only — with [prompt caching](/guide/configuration#prompt-caching)
+on, most of a run's input arrives as `cache_read_tokens` billed at ~10%, and a
+well-cached run's fresh count is a rounding error. `cache_hit_rate` is the share
+of all input served from cache. `measured: false` means the provider never
+reported usage (the run died mid-stream) and `estimated_cost_usd` is Tackle's
+own estimate — treat it as a floor, not a figure.
 
 ## Exit codes
 
@@ -50,15 +65,18 @@ php artisan ai:run "Fix the failing SubscriptionTest" --output=json | jq -r '.pr
 
 ## Confirmations without a user
 
-Five tools ask before they act: `AskUser`, `ConfirmAction`, `RunArtisan` (for
-destructive commands), `RunShell` (under `shell=approve`), and
-`CommitAndPush`. With no terminal there is nobody to answer, so **every
-confirmation is denied by default** — nothing that would have needed a human
-"yes" happens without one.
+`AskUser` and `ConfirmAction` are not exposed to headless runs at all — their
+schemas and the rules about when to call them are interactive-session
+machinery, and shipping them to a run with nobody to answer cost ~745 tokens
+per step for two tools that could never do anything. In their place the agent
+gets one rule that matters *more* without a human: finish issue work by
+opening the pull request, unprompted, and never end a turn waiting for an
+answer nobody will give.
 
-`AskUser` is the exception, because it is a choice rather than a confirmation:
-the agent is told to pick the option it judges best, say which it chose and
-why, and carry on. A denied *choice* would just stall the run.
+The tools that still guard real actions — `RunArtisan` (destructive
+commands), `RunShell` (under `shell=approve`), and `CommitAndPush` — do still
+ask, and with no terminal **every confirmation is denied by default**:
+nothing that would have needed a human "yes" happens without one.
 
 Pass `--yes` to approve automatically instead. Only do that where you would
 have clicked through the prompts yourself — it green-lights destructive

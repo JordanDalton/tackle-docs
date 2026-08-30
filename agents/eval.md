@@ -11,6 +11,8 @@ php artisan ai:eval --model=... --budget=0.50
 php artisan ai:eval --json              # machine-readable, for CI
 php artisan ai:eval --agent="App\\Ai\\LeanAgent"   # benchmark a different toolset
 php artisan ai:eval --no-cache          # measure caching's effect
+php artisan ai:eval --repeat=3          # run every case 3x — rates, not verdicts
+php artisan ai:eval --keep              # keep each case directory to read what the agent wrote
 ```
 
 ::: tip Which agent is measured
@@ -43,7 +45,21 @@ The report gives:
   previously-correct behaviour. Tracked separately because it is the most
   dangerous outcome: a green-looking change that is actually wrong;
 - **not-fixed** and **errors**;
-- **tokens and cost**, per case and in total.
+- **tokens and cost**, per case and in total — `context_tokens` counts
+  everything the case put through the model (fresh + cache reads + writes),
+  since with caching on the fresh count alone is a rounding error;
+- **the tool-call shape** of each run, printed under its row —
+  `ReadFile×5 DescribeModels Glob EditFile` — so two agents or two models can
+  be compared by *what they did*, not just what they cost.
+
+One run is an anecdote: the same case, model, and prompt has ranged from
+$0.05 to $0.42 across three runs (a `Delegate` subagent decides it). Use
+`--repeat=3` before concluding anything — with repeats the report groups by
+case and prints rates and a cost range instead of a verdict:
+
+```
+✅  slugify   fixed 3/3 · false-fix 0/3 · $0.2229–$0.2419 (mean $0.2347)
+```
 
 The command exits non-zero if any case regressed or errored, so it can gate a
 CI job.

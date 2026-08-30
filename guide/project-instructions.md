@@ -39,7 +39,11 @@ existing file.
 
 - If no `TACKLE.md` exists, Tackle falls back to `AGENTS.md`, then `CLAUDE.md`
   — so instructions you already maintain for other AI tools work out of the
-  box.
+  box. Because those files are often written for a *different* harness, the
+  agent is told to ignore any instruction naming a tool it does not have (an
+  MCP tool, a skill to activate, a rules directory) while still following the
+  conventions, house style, and project facts — you do not need to fork your
+  `AGENTS.md` for Tackle.
 - Content is capped at 20,000 characters to protect your context window and
   session budget; anything beyond that is truncated.
 - Project instructions never override Tackle's [safety layer](/guide/safety) —

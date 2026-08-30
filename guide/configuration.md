@@ -137,11 +137,19 @@ catch. Three settings bound it, all enforced in PHP:
 
 ## Prompt caching
 
-On Anthropic, every agent marks the system prompt + tool schemas with a
-`cache_control` breakpoint, so the fixed per-step prefix — which is otherwise
-re-sent at full price on every step — is billed at ~10% on repeat steps. It is
+On Anthropic, caching covers both halves of a request. The fixed prefix —
+system prompt and tool schemas — is marked with a `cache_control` breakpoint,
+and so is the **end of the conversation**, which is the half that actually
+grows: every file read and every test result is otherwise re-sent at full
+price on every step. With both in place, each step reads back what the
+previous step wrote at ~10% and pays full price only for the delta. It is
 **on by default** and transparent (identical behaviour, lower cost); measured
-~75% lower fresh input on a fix case.
+on the same GitHub-issue-to-PR run, $0.50 became $0.17, and real runs report
+90%+ of input served from cache.
+
+One trade worth knowing: a cache write bills at 1.25×, so a turn the model
+finishes in a single step pays slightly more. It repays on the first re-read,
+and agent turns are multi-step by nature.
 
 ```php
 // config/tackle.php
