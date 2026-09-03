@@ -92,9 +92,9 @@ php artisan tackle:slack --pair
 ```
 
 ```
-  U05BW5EGRA6  Jordan Dalton  (channel C0BULMQN802)
-  TACKLE_SLACK_USERS=U05BW5EGRA6
-  TACKLE_SLACK_CHANNEL=C0BULMQN802
+  U0123456789  Jordan Dalton  (channel C0123456789)
+  TACKLE_SLACK_USERS=U0123456789
+  TACKLE_SLACK_CHANNEL=C0123456789
 
   Allow Jordan Dalton to drive this project from this channel? (yes/no) [no]
 ```
