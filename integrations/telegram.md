@@ -167,4 +167,5 @@ Remove it with `deleteWebhook`.
 ## Related
 
 - [Tackle Remote](/integrations/remote) — the browser UI and the state protocol this reuses
+- [Slack](/integrations/slack) — the same idea for a team, in a channel
 - [tackle-telegram on GitHub](https://github.com/JordanDalton/tackle-telegram)

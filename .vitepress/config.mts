@@ -86,6 +86,7 @@ export default defineConfig({
         items: [
           { text: 'Tackle Remote', link: '/integrations/remote' },
           { text: 'Telegram', link: '/integrations/telegram' },
+          { text: 'Slack', link: '/integrations/slack' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
           { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },
@@ -136,6 +137,7 @@ export default defineConfig({
           { text: 'MCP Server', link: '/integrations/mcp' },
           { text: 'Tackle Remote', link: '/integrations/remote' },
           { text: 'Telegram', link: '/integrations/telegram' },
+          { text: 'Slack', link: '/integrations/slack' },
           { text: 'Tackle Review (GitHub Action)', link: '/integrations/review-action' },
           { text: 'Tackle Codex (OpenAI)', link: '/integrations/codex' },
           { text: 'Tackle Grok (xAI)', link: '/integrations/grok' },

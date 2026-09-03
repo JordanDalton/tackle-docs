@@ -132,6 +132,19 @@ php artisan tackle:telegram --pair            # find the chat id and write it to
 php artisan tackle:telegram --if-configured   # idle instead of failing, for a dev script
 ```
 
+## tackle:slack
+
+Runs a coding session driven from Slack — over Socket Mode, so it is
+outbound-only and works from anywhere without your machine being reachable.
+Requires the [Tackle Slack](/integrations/slack) package.
+
+```bash
+php artisan tackle:slack                      # start a session
+php artisan tackle:slack --pair               # find your user and channel ids and write them to .env
+php artisan tackle:slack --session=billing    # a separate conversation
+php artisan tackle:slack --if-configured      # idle instead of failing, for a dev script
+```
+
 ## tackle:eval
 
 Scaffolds a new [`ai:eval`](/agents/eval) case into your project's `evals/`

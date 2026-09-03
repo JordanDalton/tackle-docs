@@ -160,3 +160,6 @@ that.
 [Telegram](/integrations/telegram) drives the same session from a chat instead
 of a browser — and because `getUpdates` is outbound-only, it works from anywhere
 without your phone needing to reach your machine at all.
+
+[Slack](/integrations/slack) does the same for a team, in a channel, over
+Socket Mode.
