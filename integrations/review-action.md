@@ -104,6 +104,24 @@ The `respond` action accepts the same provider inputs as the review action
 (`provider`, `model`, `api-key`, prices), plus `trigger` (default `/tackle`)
 and `budget`.
 
+### Who authors the reply?
+
+- **Tackle Cloud:** the action securely returns its result to Cloud, which
+  adds the acknowledgement reaction and publishes the final response using
+  the repository's installed Tackle GitHub App. The comment therefore carries
+  the App's name and avatar. App installation credentials never enter the
+  customer workflow or its `repository_dispatch` payload.
+- **Standalone action:** with no Cloud report endpoint, the action publishes
+  directly using `github-token`, which defaults to the workflow's
+  `github.token`, and
+  appears as `github-actions[bot]`. Pass a machine-user or GitHub App token if
+  you need a different author identity outside Tackle Cloud.
+
+Cloud results are one-shot and include an invisible run marker, preventing a
+replayed result submission from duplicating the App comment. Inline review
+responses remain threaded beneath the triggering comment; conversation-tab
+responses appear as a normal PR comment.
+
 ## Upgrading dependencies from an issue: `run-type: upgrade`
 
 Tackle can watch your dependencies and turn "a new major is out" into a

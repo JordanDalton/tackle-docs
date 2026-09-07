@@ -239,9 +239,13 @@ php artisan ai:respond --pr=42 --comment-id=123456 --output=json
 - `--comment-type=review` for inline review comments (the usual case),
   `--comment-type=issue` for comments in the PR conversation tab.
 - `--output=json` reports `ok`, `outcome`, `error`, `pr_number`,
-  `comment_id`, `reply_posted`, `pushed`, and `usage` — the same
+  `comment_id`, `comment_type`, `reply_body`, `reply_deferred`,
+  `reply_posted`, `pushed`, and `usage` — the same
   stdout/stderr discipline and usage shape as `ai:run`. Exit codes are
   unchanged.
+- `--defer-reply` requires JSON output and returns the intended reply without
+  posting it. Tackle Cloud uses this mode so its installed GitHub App can
+  publish under the branded bot identity; standalone runs normally omit it.
 - If the comment asks a question rather than requesting a change, the agent
   answers in the thread and touches nothing.
 - The reply always arrives — success (with the pushed SHA and diff stat),
