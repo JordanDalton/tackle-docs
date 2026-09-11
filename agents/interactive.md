@@ -48,7 +48,7 @@ php artisan ai:code --no-worktree   # force off for this session
 ```
 
 When active, the intro line shows `· worktree: on` and a note box explains that
-live files are untouched. After each turn, the git diff stat is labelled
+live files are untouched. When the tracked diff changes during a turn, its summary is labelled
 **"Worktree changes (live files untouched)"** so it's clear no production code
 has been modified.
 
@@ -213,11 +213,11 @@ models are; some local models are not).
 throughout for a fully interactive terminal experience:
 
 - **`suggest()`** — the task prompt shows your previous tasks as autocomplete suggestions. Use ↑↓ to browse history.
-- **`stream()`** — AI text responses stream to the terminal in real time, token by token.
+- **Streaming text** — response chunks are appended once, without redrawing earlier text. This keeps long responses and captured terminal output free of replayed paragraphs.
 - **`title()`** — the terminal tab title updates dynamically as the agent works: "Tackle — Thinking…", "Tackle — Reading files", "Tackle — Running tests", "Tackle — Ready".
 - **`select()` / `multiselect()`** — when the agent calls `AskUser`, you're presented with a styled selection list rather than a raw text prompt.
 - **`confirm()`** — when the agent calls `ConfirmAction` before a destructive operation, you see a styled yes/no prompt.
-- **`note()`** — after each turn a `git diff --stat` is shown as a note block so you can see what changed.
+- **`note()`** — a bounded Git summary is shown only when the tracked diff changes during the turn. It shows at most 10 paths and includes staged changes and earlier edits; it is not a list of files modified by the agent alone. Untracked files are not included. Chat-only and webhook-only turns leave an existing dirty checkout quiet.
 - **`warning()`** — a styled warning appears when you approach 80% of your session budget.
 - **`error()`** — styled errors on agent failures or budget overruns.
 - **`intro()` / `outro()`** — session start and end use styled banners showing the model, budget, and shell mode.
