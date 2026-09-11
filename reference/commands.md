@@ -165,3 +165,17 @@ php artisan tackle:agent MyAgent
 php artisan tackle:agent MyAgent --full
 php artisan vendor:publish --tag="tackle-stubs"   # customise the stubs
 ```
+
+## Grokbot package commands
+
+Available after installing [Tackle Grokbot](/integrations/grokbot). Requires Tackle ^1.56.8; `grokbot:install` requires Grokbot ^0.1.1.
+
+| Command | Purpose |
+|---|---|
+| `grokbot:install` | Run only Grokbot's migrations and offer first-bot registration. Safe to rerun. |
+| `grokbot:register` | Add a named webhook, instructions, hidden bearer token, and enabled status. No bot count limit. |
+| `grokbot:edit` | Select a bot to edit, disable, or rotate credentials. |
+| `grokbot:remove` | Confirm removal, erase credentials, and retain delivery history. |
+| `grokbot:history --bot=1 --page=1` | Show 25 deliveries per page, including removed bots. Omit `--bot` for all bots. |
+
+Use `grokbot:install --no-interaction` for unattended setup; production also requires `--force`. Unattended setup skips registration. Tokens are entered through hidden interactive prompts, never command arguments.

@@ -56,3 +56,15 @@ running outside your application cannot have — see [The Application
 Map](/guide/app-map) for what they return and why it beats reading the files.
 
 Want to add your own? See [Custom Tools](/extending/custom-tools).
+
+## Grokbot package tools
+
+Installing [Tackle Grokbot](/integrations/grokbot) adds these tools to the default coding agent through the package tool registry. Explicit `tackle.tools` allowlists must include their class names.
+
+| Tool | Arguments | Purpose |
+|---|---|---|
+| `ListGrokbots` | `page?` | List enabled bot IDs, names, and instructions; 25 per page. No credentials. |
+| `SendToGrokbot` | `grokbot_id`, `payload` | Send a JSON object encoded as a string, up to 64 KiB. Authentication is supplied internally. |
+| `ListGrokbotDeliveries` | `grokbot_id?`, `page?` | Read sanitized delivery history, including removed bots; 25 per page. |
+
+An `accepted` result means HTTP 2xx, not completion of the remote automation. Transport errors have `unknown` status; investigate before resending. The package does not automatically retry. See [delivery behavior](/integrations/grokbot#delivery-behavior).

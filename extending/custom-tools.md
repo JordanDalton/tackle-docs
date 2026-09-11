@@ -1,7 +1,6 @@
 # Custom Tools
 
-Create a class that extends `Tackle\Tools\AbstractTool`, then extend
-`DefaultCodingAgent` to merge it into the tool list, and rebind the contract.
+Create a class that extends `Tackle\Tools\AbstractTool`. In Tackle 1.56.8 and later, register it with the `tackle.tools` container tag. You can also extend `DefaultCodingAgent` and rebind its contract as shown below.
 
 ## Step 1 — Generate the tool (or write it manually)
 
@@ -138,3 +137,22 @@ php artisan vendor:publish --tag="tackle-stubs"
 
 This copies the stubs to `stubs/tackle/` in your project root. Both commands
 check for published stubs before falling back to the package defaults.
+
+## Register tools from a package
+
+Since Tackle 1.56.8, a package or application service provider can register tools without replacing the default coding agent:
+
+```php
+public function register(): void
+{
+    $this->app->tag([
+        \App\Ai\Tools\ReadDatabase::class,
+    ], 'tackle.tools');
+}
+```
+
+The default coding agent resolves tagged tools through Laravel's container, applies the `tackle.tools` configuration allowlist, and wraps them with its normal shield and tool-event handling. The container tag and configuration key have the same name: the tag contributes tools; the configuration key restricts the available tool names.
+
+Custom agents that replace `tools()` must include package tools explicitly or call `parent::tools()`. Lean agents retain their narrower tool list. MCP tools are separately configured in `tackle.mcp.tools`.
+
+[Tackle Grokbot](/integrations/grokbot) uses this extension point to register its discovery, sending, and delivery-history tools.
