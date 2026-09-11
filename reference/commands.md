@@ -63,6 +63,7 @@ php artisan tackle:install review   # scaffold .github/workflows/tackle-review.y
 php artisan tackle:install eval-ci # scaffold nightly ai:eval workflow
 php artisan tackle:install codex    # composer-require Tackle Codex (--no-dev to add to require)
 php artisan tackle:install grok     # composer-require Tackle Grok (--no-dev to add to require)
+php artisan tackle:install grokbot  # install webhooks and run setup (--no-dev for production dependency)
 php artisan tackle:install guard    # print the guard-pack hook entries to add to config
 ```
 
@@ -168,7 +169,7 @@ php artisan vendor:publish --tag="tackle-stubs"   # customise the stubs
 
 ## Grokbot package commands
 
-Available after installing [Tackle Grokbot](/integrations/grokbot). Requires Tackle ^1.56.8; `grokbot:install` requires Grokbot ^0.1.1.
+Run `php artisan tackle:install grokbot` with Tackle 1.56.9+ to install [Tackle Grokbot](/integrations/grokbot) and run its setup. Use `--no-dev` for a production dependency and `--no-interaction --force` for unattended production migrations. The following commands are available after package installation. Requires Tackle ^1.56.8; `grokbot:install` requires Grokbot ^0.1.1.
 
 | Command | Purpose |
 |---|---|
