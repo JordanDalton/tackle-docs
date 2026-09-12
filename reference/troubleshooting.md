@@ -2,13 +2,26 @@
 
 ## `HTTP request returned status code 401`
 
-Your API key is incorrect or revoked. A *missing* key no longer gets this
-far: since v1.56.1 every streaming command checks the configured provider's
-key before the first request and fails immediately with a message naming the
-provider and the variable to set — so a 401 usually means the key exists but
-is wrong. Check `ANTHROPIC_API_KEY` (or the key for your chosen provider) in
-the environment the run executes in — for CI runs, the secret your workflow
-passes.
+First identify which authentication layer rejected the request:
+
+- **Tackler sign-in expired** in the mobile app: sign in to Tackler again.
+- **Invalid connector token** in the `tackle:connect` daemon log: generate a
+  fresh enrollment in Tackler and run its one-time command.
+- **A 401 from an agent turn**: the model provider rejected the key loaded by
+  that Laravel deployment.
+
+A missing model key is caught before the request, so a provider 401 usually
+means the key exists but is wrong or revoked. Verify it from the same deployed
+release and Unix user that runs the connector:
+
+```bash
+php artisan tackle:health --probe-provider
+```
+
+Check `ANTHROPIC_API_KEY` (or the key for your chosen provider) in that
+environment. If you changed it, run `php artisan optimize:clear`, then restart
+the `tackle:connect` daemon. For CI runs, check the secret passed by the
+workflow instead.
 
 ## `Agent error: ...` and the session continues
 

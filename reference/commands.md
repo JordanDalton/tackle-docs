@@ -41,12 +41,18 @@ when something isn't working as expected.
 
 ```bash
 php artisan tackle:health
+php artisan tackle:health --probe-provider
 ```
+
+The optional provider probe makes one minimal live model request. Use it on
+the deployed server to verify that the configured provider accepts the loaded
+key and URL; the default health check only verifies that a key is present.
 
 It checks:
 
 - `config/tackle.php` and `config/ai.php` are published
 - An API key is configured for the active provider
+- With `--probe-provider`, the provider accepts a live request
 - The project is a git repository with at least one commit
 - `.env.testing` exists (warns if missing)
 - If healing is enabled: migration has been run, GitHub token is available

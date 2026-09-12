@@ -94,10 +94,14 @@ produce weaker results. The plumbing is neutral; our recommendation is Claude.
 
 ```bash
 php artisan tackle:health
+php artisan tackle:health --probe-provider
 ```
 
 This checks that the configs are published, an API key is configured for the
 active provider, and the project is a git repository with at least one commit.
+The provider probe also makes one minimal live request, catching an invalid or
+revoked key before your first agent session. After changing server environment
+variables, run `php artisan optimize:clear` before probing again.
 See [Utility Commands](/reference/commands#tackle-health) for the full list of
 checks.
 

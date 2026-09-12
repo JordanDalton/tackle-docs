@@ -33,6 +33,13 @@ composer require jordandalton/laravel-tackle-remote --dev
 php artisan vendor:publish --tag=tackle-remote-config   # optional
 ```
 
+For a production Tackler connector, install it as a production dependency so
+`composer install --no-dev` keeps the command:
+
+```bash
+composer require jordandalton/laravel-tackle-remote
+```
+
 Requires `jordandalton/laravel-tackle` ^1.22 and its configuration (provider
 API key, etc.).
 
@@ -55,6 +62,54 @@ single-use**: the first device to open one is paired and receives a signed
 session cookie; the link then expires and the terminal prints a fresh QR for
 the next device. Sessions — and everything they're signed with — die with the
 process.
+
+## Persistent team access with Tackler
+
+**Tackler** removes the need to expose a port or repeatedly scan pairing codes.
+A team creates a project, adds its local, staging, or production environments,
+and connects each server once. Every authorized team member can then use those
+deployments from the mobile app.
+
+In Tackler, open the project environment, click **Connect server**, and run the
+generated command from that Laravel project:
+
+```bash
+php artisan tackle:connect \
+    --url=https://your-tackler.example/api/connectors/enroll \
+    --code=tkl_enroll_single_use_code
+```
+
+Run that full command **once**. It exchanges the short-lived enrollment code
+for a revocable credential stored with owner-only permissions. Do not save the
+code or the generated command in Forge. Configure only this credential-free
+command as the long-running daemon:
+
+```bash
+php artisan tackle:connect
+```
+
+The connector makes outbound HTTPS requests only; it needs no public port,
+reverse proxy, or VPN. Add this after the new release becomes current in the
+deployment script:
+
+```bash
+php artisan migrate --force
+php artisan tackle:connect:restart
+```
+
+Restart the daemon manually once after first adding the restart command. Later
+deployments signal the supervised process to start on the new release without
+re-enrollment.
+
+Before opening mobile chat, verify the model credentials inside the deployed
+application:
+
+```bash
+php artisan tackle:health --probe-provider
+```
+
+To replace a connector deliberately, run `php artisan tackle:connect --forget`,
+then generate and run a fresh one-time enrollment command in Tackler.
 
 ## How it works
 
@@ -123,10 +178,11 @@ it with SSH-grade caution. The model:
 - All of core Tackle's guarantees still apply underneath: `PathGuard`,
   artisan/shell allowlists, budget enforcement, hooks.
 
-## Running on a cloud server
+## Direct mode on a cloud server
 
-The supported way to reach a cloud-hosted Tackle Remote is to **not expose it
-at all** — put the server and your phone on the same private network:
+For persistent company and team access, use the Tackler connector above. If you
+use direct QR `tackle:remote` mode instead, do **not** expose it publicly. Put
+the server and your phone on the same private network:
 
 1. Install [Tailscale](https://tailscale.com) (or any WireGuard mesh) on the
    server and your phone.
@@ -143,13 +199,6 @@ terminate TLS at a real proxy (Caddy, nginx) and put an identity layer in
 front (Cloudflare Access, VPN, at minimum proxy auth). Plain HTTP on a public
 interface means cookies and pairing codes travel in cleartext — never do
 that.
-
-## Roadmap
-
-- Push notifications for self-healer approvals — review the diff and approve
-  a fix PR from your phone.
-- Session switcher and transcript browser in the UI.
-- Hosted relay for zero-tunnel access from anywhere.
 
 ## Links
 
